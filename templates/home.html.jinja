@@ -1,0 +1,14 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <title>My Homepage</title>
+    </head>
+    <body>
+       <p><h1>Hello World</h1></p>
+       {% if user_name != ""%}
+       <p><h2>Hi, {{user_name}} </h2></p>
+       {%else%}
+       <h2>Sign up or Sign in!</h2>
+       {% endif %}
+    </body>
+</html>
