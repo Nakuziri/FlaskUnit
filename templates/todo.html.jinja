@@ -7,8 +7,13 @@
     <Body>
         <h1>Todo</h1>
         <ul>
-            {%for todo in todos%}
-                <li>{{todo}}</li>
+            {%for todo in new_todos%}
+                <li>
+                    {{todo}}
+                    <form method ="POST" action="/delete_todos/{{loop.index0}}">
+                        <input type="submit" value="Delete">
+                    </form>
+                </li>
            
             {%endfor%}
         </ul>
@@ -16,8 +21,8 @@
         <form method="post">
 
             <input name = 'todos'>
-            <input name = 'submit'>
-            
+            <input type = 'submit'>
+             
         </form>
 
         <style>
