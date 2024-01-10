@@ -18,21 +18,33 @@ app = Flask(__name__)
 @app.route('/', methods=['GET','POST']) 
 def index():
     if request.method == "POST" :
-        cursor = conn.cursor() 
         new_todos = request.form['new_todos']
+        cursor = conn.cursor()
         # Todos.append(new_todos)
         cursor.execute(f"INSERT INTO `Todos`(`description`) VALUES ('{new_todos}')")
-        conn.commit()
         cursor.close()
-    
-    cursor = conn.cursor()      
+        conn.commit()
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM `Todos` ORDER BY `complete`")      
     cursor.execute("SELECT * FROM `Todos`")
     results = cursor.fetchall()
     cursor.close()
 
     return render_template("todo.html.jinja", new_todos = results)
 
-# @app.route('/delete_todos/<int:todo_index>', methods=['POST'])
-# def todo_delete(todo_index):
-#     del Todos[todo_index]
-#     return redirect('/')
+@app.route('/delete_todos/<int:todo_index>', methods = ['POST'])
+def todo_delete(todo_index):
+    cursor=conn.cursor()
+    cursor.execute(f"DELETE FROM `Todos` WHERE `id` = {todo_index}")
+    cursor.close()
+    conn.commit()
+    return redirect('/')
+
+@app.route('/complete_todo/<int:todo_index>', methods = ['POST'])
+def todo_complete(todo_index):
+    cursor = conn.cursor()
+    cursor.execute(f"UPDATE `Todos` SET `complete` = 1 WHERE `id` = {todo_index}")
+    cursor.close()
+    conn.commit()
+    return redirect('/')

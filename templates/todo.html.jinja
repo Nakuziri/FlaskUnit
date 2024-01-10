@@ -2,38 +2,60 @@
 <html>
     <head>
         <title>Todo List</title>
+
+        <style>
+         @import url('https://fonts.googleapis.com/css2?family=Lemon&display=swap');
+
+            
+            body {
+                background-color: #e3caa5;
+                 font-family: 'Lemon', serif;
+                 font-size: xx-large;
+                 text-align: center;
+
+            }
+            .complete {
+                text-decoration:  line-through;
+                font-style: italic;
+            }
+
+            #todolable {
+            margin: 5% ;
+            background-color:burlywood ;
+            padding: 5%;
+            border-radius: 10px;
+            }
+
+            li{
+                list-style: none;
+                background-color: lightgray;
+            }
+
+        </style>
+
     </head>
 
     <Body>
-        <h1>Todo</h1>
+        <h1 id="todolable">Todo</h1>
         <ul>
             {%for todo in new_todos%}
-                <li>
-                    {{todo}}
-                    <form method ="POST" action="/delete_todos/{{loop.index0}}">
+                <li class = "{% if todo ['complete'] %} complete {% endif %}">
+                    {% if todo ['complete'] %}🥳{% endif %}
+                    {{todo['description']}}
+                    <form method ="POST" action="/delete_todos/{{todo['id']}}">
                         <input type="submit" value="Delete">
                     </form>
-                </li>
-           
+                    <form method ="POST" action="/complete_todo/{{todo['id']}}">
+                        <input type="submit" value="Mark Complete">
+                    </form>  
+                </li>        
             {%endfor%}
         </ul>
 
         <form method="post">
 
-            <input name = 'todos'>
-            <input type = 'submit'>
-             
-        </form>
-
-        <style>
-         @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
-            
-            body {
-                background-color: #e3caa5;
-                 font-family: 'Sacramento', cursive;
-                 font-size: xx-large;
-
-            }
-        </style>
+            <input name = 'new_todos'>
+            <input type = 'submit'>    
+        </form>   
     </Body>
 </html>
