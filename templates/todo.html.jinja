@@ -12,7 +12,8 @@
                  font-family: 'Lemon', serif;
                  font-size: xx-large;
                  text-align: center;
-
+                 max-width: 1400px;
+                 margin: auto;
             }
             .complete {
                 text-decoration:  line-through;
@@ -26,9 +27,35 @@
             border-radius: 10px;
             }
 
-            li{
+            div{
                 list-style: none;
-                background-color: lightgray;
+                background-color: #DABEA2;
+                border-radius: 12px;
+                padding: 4%;
+                margin: 5%;
+                margin-left: 2.2%;
+            }
+           
+            .buttnwork{
+                padding: 10px;  
+                border-radius: 8px;
+
+                background-color: #DDD1CB;
+            }
+
+            .buttnwork:hover{
+                background-color: #D3BBAF;
+            }
+
+            .textbar {
+                background-color: #e4ddda;
+                border-radius: 7px;
+                width: 170px;
+                height: 40px;
+                
+            }
+            .textbar:hover{
+                background-color: #D3BBAF;
             }
 
         </style>
@@ -36,26 +63,43 @@
     </head>
 
     <Body>
-        <h1 id="todolable">Todo</h1>
-        <ul>
-            {%for todo in new_todos%}
-                <li class = "{% if todo ['complete'] %} complete {% endif %}">
-                    {% if todo ['complete'] %}🥳{% endif %}
-                    {{todo['description']}}
-                    <form method ="POST" action="/delete_todos/{{todo['id']}}">
-                        <input type="submit" value="Delete">
-                    </form>
-                    <form method ="POST" action="/complete_todo/{{todo['id']}}">
-                        <input type="submit" value="Mark Complete">
-                    </form>  
-                </li>        
-            {%endfor%}
+        <h1 id="todolable"> Your Todos </h1>
+        <ul> 
+            <div>
+             {%for todo in new_todos%}
+                
+                 <li class = "{% if todo ['complete'] %} complete {% endif %}">
+                        {% if todo ['complete'] %}🥳{% endif %}
+                        {{todo['description']}}
+
+                        <form method ="POST" action="/delete_todos/{{todo['id']}}">
+                            <input class="buttnwork" type="submit" value="Delete">
+                        </form>
+
+                        {% if todo['complete']%}
+                        <form method ="POST" action="/uncomplete_todo/{{todo['id']}}">
+                            <input class="buttnwork" type="submit" value="Mark Uncompleted">
+                        </form>
+                        {%endif%}
+
+                        {% if todo['complete'] == 0%}
+                        <form method ="POST" action="/complete_todo/{{todo['id']}}">
+                            <input class="buttnwork" type="submit" value="Mark Complete">
+                        </form>  
+                        {%endif%}
+
+                        
+                    </li>
+                        
+             {%endfor%}
+            </div>
         </ul>
 
         <form method="post">
 
-            <input name = 'new_todos'>
-            <input type = 'submit'>    
+            <input class="textbar" placeholder="Enter your todo!" name = 'new_todos'>
+            <br>
+            <input class="buttnwork" type = 'submit' >    
         </form>   
     </Body>
 </html>
